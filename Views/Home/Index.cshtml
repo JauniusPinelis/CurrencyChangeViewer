@@ -1,0 +1,49 @@
+﻿@section scripts{
+     <script src="/Scripts/app/ExchangeRateClient.js"></script>
+}
+<div ng-app="ExchangeRateApp" class="container">
+   <div ng-controller="ExchangeRateController">
+       <p/>
+       <form name="dateForm">
+           <label>Select a date</label>
+           <input type="date" id="date" ng-model="selectedDate" max="2014-12-30" 
+                  data-ng-change="getExchangeRates(selectedDate)"/>
+       </form>
+       <br />
+       <br/>
+       
+       <h3 ng-show="dataLoading == true">
+               Loading Currency Data...
+       </h3>
+       <table ng-show="dataLoading == false" class="table">
+           <tr>
+               <th>Code</th>
+               <th>Name</th>
+               <th>Rate Change</th>
+           </tr>
+           <tr ng-repeat="r in exchangeRates"> 
+               <td>
+                   {{r.CurrencyCode}}
+               </td>
+               <td>{{r.CurrencyName}}</td>
+                <td ng-if="r.RateChange > 0">
+                    <img src="/Content/Images/up.png" height="20" width="20" />
+                    {{r.RateChange | number: 4}}
+                </td>
+                <td ng-if="r.RateChange < 0">
+                    <img src="/Content/Images/down.png" height="20" width="20" />
+                     {{r.RateChange | number: 4}}
+               </td>
+               <td ng-if="r.RateChange == 0">
+                   {{r.RateChange}}
+               </td>
+           </tr>
+           <tr ng-show="exchangeRates.length == 0">
+               <td>
+                   <h3>No currency data found on selected date</h3>
+               </td>
+           </tr>
+           
+       </table>
+   </div>
+</div>
